@@ -1,3 +1,8 @@
+# Salam Hormat
+Halo, mohon untuk di coba DBHelper php yang saya buat, semoga bisa membantu dalam kode kamu. 
+
+~Terima Kasih
+
 ## Cara Pakai
 Lihat Index.php untuk implemetasi
 
@@ -10,6 +15,15 @@ require ("DBHelper.php");
 set Instan koneksi database dengan json di folder Config
 ```bash
 $db = DBHelper::Instance("Config/DB_mysql_test.json");
+
+//Config/DB_mysql_test.json
+{
+    "type":"mysql"
+    ,"host":"localhost"
+    ,"dbname":"nama database"
+    ,"username":"nama user"
+    ,"passcode":"kata sandi"
+}
 ```
 
 
@@ -71,4 +85,9 @@ $db->Delete(
     )
 );
 ```
+
+### License Creative Commons Zero v1.0 Universal
+Kamu dapat menyalin, memodifikasi, mendistribusikan, dan melakukan pekerjaan, bahkan untuk tujuan komersial, dengan Kode ini tanpa meminta izin sekalipun.
+
+
 
