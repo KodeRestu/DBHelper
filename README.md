@@ -34,7 +34,7 @@ Select mengikuti syntax sql, menggunakan metode rantai
 ```bash
 $data = $db->select("fullname,email")               //kolom 
              ->from("user")                         //tabel
-             //->where(["fullname =", "'hrth'"])    //Kondisi dalam bentuk array yang nanti akan di join semua elemennya jika value string pada sql adalah kutip satu 'value'
+             //->where(["fullname =", "'hrth'"])    //Kondisi dalam bentuk array yang nanti akan di gabung semua elemennya, value string pada sql adalah kutip satu 'value'
              ->orderBy("fullname desc")             //sama seperti sql, 'kolom' dulu kemudian sequen 'asc/desc'
              ->query();                             //akhiri dengan metode query(); untuk banyak baris/ atau queryRow(); untuk satu baris
              
@@ -50,9 +50,9 @@ echo json_encode($data2);
 ```
 
 ### 4. Insert Database
-$db->Insert(table,insert object);
+$db->insertInto(table,insert object column=>value);
 ```bash
-$db->Insert(
+$db->insertInto(
     "user"
     ,(object) array(
         "fullname" => "fullname123"
@@ -62,9 +62,27 @@ $db->Insert(
 ```
 
 ### 5. Update Database
-$db->Update(table,where object,update object);
+
+##### 5.1 update(table)->set(object)->where(condition)
+- $db->update(table)->set(set object)
+- ->where(["email =", "'tro765y4reg'"])             //Kondisi dalam bentuk array yang nanti akan di gabung semua elemennya, value string pada sql adalah kutip satu 'value'
+- ->exec()                                          //akhiri dengan metode exec(); untuk menjalankan update
 ```bash
-$db->Update(
+$db->update("user")
+->set(
+    (object) array(
+        "fullname" => "tro765y4reg_update1"
+    )
+)
+->where(
+    ["email =", "'tro765y4reg'"]
+)
+->exec()
+```
+##### 5.2 updateTo(table,where object,update object)
+$db->updateTo(table,where object,update object);
+```bash
+$db->updateTo(
     "user"
     ,(object) array(
         "email" => "tro765y4reg"
@@ -76,7 +94,7 @@ $db->Update(
 ```
 
 ### 6. Delete Database
-$db->Delete(table,where object);
+$db->deleteFrom(table,where object);
 ```bash
 $db->Delete(
     "user"

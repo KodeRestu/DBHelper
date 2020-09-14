@@ -11,6 +11,10 @@ class DBHelper
     private $_whereCondition = "";
     private $_orderBy = "";
 
+    private $_execKind = "";
+    private $_execTable = "";
+    private $_execSet = "";
+
     public function __construct() {
         $this -> connectDB();
     }
@@ -47,7 +51,8 @@ class DBHelper
         $this -> conn = NULL;        
     }
 
-    function select($column){
+    function select($column){      
+        $this -> _resetSelect();  
         $this -> _selectColumn = "select {$column} ";
         return $this;
     }
@@ -64,11 +69,21 @@ class DBHelper
         return $this;
     }
 
+    
+
     function orderBy($order){
         $condition = " order by {$order}";
         $this -> _orderBy = $condition;
         return $this;
     }
+
+    private function _resetSelect(){
+        $this -> _whereCondition = "";
+        $this -> _selectColumn = "";
+        $this -> _orderBy = "";
+    }
+
+    
 
     function queryRows($sql){
         $query = $this -> queryPDO($sql);
@@ -80,7 +95,7 @@ class DBHelper
         return $query->fetch(PDO::FETCH_OBJ);
     }
     
-    function insert($table,$args) {
+    function insertInto($table,$args) {
         $fieldList = array();
         $valueList = array();
 
@@ -99,11 +114,39 @@ class DBHelper
         $values = join(",",$valueList);
 
         $sql = "INSERT INTO ".$table." (".$fields.") VALUES (".$values.")";
-       // echo  $sql;
+       
         $this -> execute($sql);
     } 
 
-    function update($table,$argsWhere,$argsSet) {        
+    private function _resetExec(){
+        $this -> _execKind = "";
+        $this -> _execTable = "";
+        $this -> _execSet = "";
+        $this -> _whereCondition = "";
+    }
+
+    function update($table){
+        $this -> _resetExec(); 
+        $this->_execKind = "update";
+        $this->_execTable = $table;
+        return $this;
+    }
+
+    function set($argsSet){
+        $setList = array();
+        foreach($argsSet as $key => $val) {
+            array_push(
+                $setList
+                , $key."='".$val."'"
+            );            
+        }
+        $setSql = join(",",$setList);
+
+        $this->_execSet = $setSql;
+        return $this;
+    }
+
+    function updateTo($table,$argsWhere,$argsSet) {        
         $setList = array();
         $whereList = array();
 
@@ -125,12 +168,11 @@ class DBHelper
         $whereSql = join(" and ",$whereList);
 
         $sql = "UPDATE ".$table." SET ".$setSql." WHERE ".$whereSql;
-        //echo $sql;
-
+        
         $this -> execute($sql);
     } 
 
-    function delete($table,$argsWhere) {        
+    function deleteFrom($table,$argsWhere) {        
         $whereList = array();       
 
         foreach($argsWhere as $key => $val) {
@@ -151,8 +193,6 @@ class DBHelper
     function query() {
         $sql = $this->_selectColumn.$this->_fromTable.$this->_whereCondition.$this->_orderBy;
 
-        //echo $sql;
-
         try {
             return $this -> queryRows($sql);
         } catch (Exception $err) {
@@ -164,8 +204,6 @@ class DBHelper
     function queryRow() {
         $sql = $this->_selectColumn.$this->_fromTable.$this->_whereCondition.$this->_orderBy;
 
-        //echo $sql;
-
         try {
             return $this -> queryObject($sql);
         } catch (Exception $err) {
@@ -174,7 +212,26 @@ class DBHelper
        
     }
 
-    function queryPDO($sql) {     
+    function exec() { 
+        $kind = $this->_execKind;
+        
+        $cmd= "";
+        $set= "";
+        $where= "";
+
+        if($kind == "update"){
+            $cmd= "UPDATE {$this->_execTable} ";
+            $set= "SET {$this->_execSet} ";
+            $where= "{$this->_whereCondition}";
+        }
+        
+
+        $sql = $cmd.$set.$where;
+
+        $this->execute($sql);
+    }
+
+    function queryPDO($sql) {    
         
         return $this -> conn->query($sql);
     }

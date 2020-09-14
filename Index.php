@@ -7,7 +7,7 @@ $db = DBHelper::Instance("Config/DB_mysql_test.json"); //set Instan koneksi data
 //Select mengikuti syntax sql, menggunakan metode rantai
 $data = $db->select("fullname,email")               //kolom 
              ->from("user")                         //tabel
-             //->where(["fullname =", "'hrth'"])    //Kondisi dalam bentuk array yang nanti akan di join semua elemennya jika value string pada sql adalah kutip satu 'value'
+             //->where(["fullname =", "'hrth'"])    //Kondisi dalam bentuk array yang nanti akan di gabung semua elemennya jika value string pada sql adalah kutip satu 'value'
              ->orderBy("fullname desc")             //sama seperti sql, 'kolom' dulu kemudian sequen 'asc/desc'
              ->query();                             //akhiri dengan metode query(); untuk banyak baris/ atau queryRow(); untuk satu baris
              
@@ -24,36 +24,59 @@ echo json_encode($data2);
 
 #region Insert Database
 //$db->Insert(table,insert object);
-$db->Insert(
+
+$db->insertInto(
     "user"
     ,(object) array(
         "fullname" => "fullname123"
         ,"email" => "tro765y4reg"
     )
 );
+
 #endregion
 
 #region Update Database
-//$db->Update(table,where object,update object);
-$db->Update(
+//$db->update("table")->set(set object)
+//->where(["email =", "'tro765y4reg'"])             //Kondisi dalam bentuk array yang nanti akan di gabung semua elemennya jika value string pada sql adalah kutip satu 'value'
+//->exec()                                          //akhiri dengan metode exec(); untuk menjalankan update
+
+$db->update("user")
+->set(
+    (object) array(
+        "fullname" => "tro765y4reg_update1"
+    )
+)
+->where(
+    ["email =", "'tro765y4reg'"]
+)
+->exec();
+
+
+//$db->updateTo(table,where object,update object);
+
+$db->updateTo(
     "user"
     ,(object) array(
         "email" => "tro765y4reg"
     )
     ,(object) array(
-        "fullname" => "tro765y4reg_update"
+        "fullname" => "tro765y4reg_update2"
     )
 );
+
 #endregion
 
 #region Delete Database
-//$db->Delete(table,where object);
-$db->Delete(
+//$db->deleteFrom(table,where object);
+
+
+$db->deleteFrom(
     "user"
     ,(object) array(
         "email" => "tro765y4reg"
     )
 );
+
 #endregion
 
 
