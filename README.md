@@ -96,7 +96,7 @@ $db->updateTo(
 ### 6. Delete Database
 $db->deleteFrom(table,where object);
 ```bash
-$db->Delete(
+$db->deleteFrom(
     "user"
     ,(object) array(
         "email" => "tro765y4reg"
