@@ -1,6 +1,6 @@
 {
     "name": "restu/dbhelper",
-    "description": "package library for help use db",
+    "description": "package library for help you to use db",
     "type": "library",
     "version": "0.0.1",
     "license": "CC0-1.0",
@@ -10,6 +10,7 @@
         "mysql",
         "PDO"
       ],
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {"mod\\backend\\": "mod/backend"}
     },
