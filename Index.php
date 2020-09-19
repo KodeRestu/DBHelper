@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php'; //composer
+//require_once 'mod/backend/dbhelper.php'; //native
 
 use mod\backend\dbhelper;
 

@@ -1,5 +1,5 @@
 # Salam Hormat
-Halo, mohon untuk di coba DBHelper php yang saya buat, semoga bisa membantu dalam kode kamu. 
+Halo, mohon untuk di coba dbhelper php yang saya buat, semoga bisa membantu dalam kode kamu. 
 
 ~Terima Kasih
 
@@ -7,8 +7,21 @@ Halo, mohon untuk di coba DBHelper php yang saya buat, semoga bisa membantu dala
 Lihat Index.php untuk implemetasi
 
 ### 1. Require
+#### Composer
+Install
 ```bash
-require ("DBHelper.php");
+composer require restu/dbhelper --dev
+```
+Require
+```bash
+require_once __DIR__ . '/vendor/autoload.php';
+use mod\backend\dbhelper;
+```
+
+#### Native
+```bash
+require_once 'mod/backend/dbhelper.php';
+use mod\backend\dbhelper;
 ```
 
 ### 2. Buat Intansiasi DB
