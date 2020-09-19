@@ -1,6 +1,10 @@
 <?php
 
-class DBHelper
+namespace mod\backend;
+
+use \PDO;
+
+class dbhelper
 {    
     public static $Connection;
 
@@ -38,7 +42,7 @@ class DBHelper
     public static function Instance($connection){
         if(!isset(self::$_instance)) {
             self::$Connection=$connection;
-        self::$_instance = new DBHelper();
+        self::$_instance = new dbhelper();
         }
         return self::$_instance;
     }
