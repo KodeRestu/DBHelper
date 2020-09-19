@@ -2,7 +2,7 @@
     "name": "restu/dbhelper",
     "description": "package for help use db",
     "type": "library",
-    "license": "CC0 1.0 Universal",
+    "license": "CC0-1.0",
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {"mod\\backend\\": "mod/backend"}
