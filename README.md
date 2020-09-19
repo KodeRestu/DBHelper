@@ -7,18 +7,20 @@ Halo, mohon untuk di coba dbhelper php yang saya buat, semoga bisa membantu dala
 Lihat Index.php untuk implemetasi
 
 ### 1. Require
-#### Composer
+- Composer
+
 Install
 ```bash
 composer require restu/dbhelper --dev
 ```
-Require
+    
+file.php
 ```bash
 require_once __DIR__ . '/vendor/autoload.php';
 use mod\backend\dbhelper;
 ```
 
-#### Native
+- Native
 ```bash
 require_once 'mod/backend/dbhelper.php';
 use mod\backend\dbhelper;

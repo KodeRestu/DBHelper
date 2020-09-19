@@ -1,6 +1,6 @@
 {
     "name": "restu/dbhelper",
-    "description": "package library for help you to use db",
+    "description": "package library for help you to use database",
     "type": "library",
     "version": "0.0.1",
     "license": "CC0-1.0",
