@@ -16,5 +16,13 @@
     },
     "require": { 
         "php": ">=7.0"    
-    }
+    },
+    "authors": [
+        {
+            "name" : "Restu Adi",
+            "email" : "lab@fidelstu.com",
+            "homepage": "https://fidelstu.com/",
+            "role": "Developer"
+        }
+    ]
 }
