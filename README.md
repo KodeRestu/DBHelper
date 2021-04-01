@@ -6,121 +6,153 @@ Halo, mohon untuk di coba dbhelper php yang saya buat, semoga bisa membantu dala
 ## Cara Pakai
 Lihat Index.php untuk implemetasi
 
-### 1. Require
-- Composer
+### 1. Config
+##### 1.1 config db.json di folder /config. 
+##### 1.2 modify jika didalam subfolder $_pathConfig = 'folder../db.json' di folder dbclass/_db.php;
 
-Install
+### 2. Buat Table Class
+buat table class sesuai db km didalam folder dbclass
 ```bash
-composer require restu/dbhelper --dev
-```
-    
-file.php
-```bash
-require_once __DIR__ . '/vendor/autoload.php';
-use mod\backend\dbhelper;
-```
+//table class must extends from _tbl
+class Tbl extends _tbl{    
+    protected $_tbl = 'tbl';
+    protected $_pk = 'id'; //must have primary key
 
-- Native
-```bash
-require_once 'mod/backend/dbhelper.php';
-use mod\backend\dbhelper;
-```
-
-### 2. Buat Intansiasi DB
-set Instan koneksi database dengan json di folder Config
-```bash
-$db = DBHelper::Instance("Config/DB_mysql_test.json");
-
-//Config/DB_mysql_test.json
-{
-    "type":"mysql"
-    ,"host":"localhost"
-    ,"dbname":"nama database"
-    ,"username":"nama user"
-    ,"passcode":"kata sandi"
+    //define fields
+    protected $_fields = [
+      'id' => null
+      ,'namatest'  => null
+      ,"info" => null
+    ];    
+  
 }
 ```
 
-
-### 3. Select Query
-Select mengikuti syntax sql, menggunakan metode rantai
-- akhiri dengan metode query(); untuk banyak baris
-- akhiri dengan metode queryRow(); untuk satu baris
+### 3. required / include _dbloader.php
+semua file php akan auto di load agar mudah di instansiasi oleh karena itu require / include _dbloader.php di atas dokumen php km
 ```bash
-$data = $db->select("fullname,email")               //kolom 
-             ->from("user")                         //tabel
-             //->where(["fullname =", "'hrth'"])    //Kondisi dalam bentuk array yang nanti akan di gabung semua elemennya, value string pada sql adalah kutip satu 'value'
-             ->orderBy("fullname desc")             //sama seperti sql, 'kolom' dulu kemudian sequen 'asc/desc'
-             ->query();                             //akhiri dengan metode query(); untuk banyak baris/ atau queryRow(); untuk satu baris
-             
-             
-
-$data2 = $db->from("user")                          // tanpa select akan otomatis select * from(tabel)
-//->query();                         
-->queryRow();                                       //akhiri dengan metode queryRow(); untuk satu baris
-
-echo json_encode($data);
-echo "<br><br>";
-echo json_encode($data2);
+require ("_dbloader.php");
 ```
 
-### 4. Insert Database
-$db->insertInto(table,insert object column=>value);
+### 4. Intansiasi Tabel
+Instansiasi tabel yang diperlukan
 ```bash
-$db->insertInto(
-    "user"
-    ,(object) array(
-        "fullname" => "fullname123"
-        ,"email" => "tro765y4reg"
-    )
-);
+$tbl = new Tbl();
 ```
 
-### 5. Update Database
+### 5. Good luck & Have fun with your app 
 
-##### 5.1 update(table)->set(object)->where(condition)
-- $db->update(table)->set(set object)
-- ->where(["email =", "'tro765y4reg'"])             //Kondisi dalam bentuk array yang nanti akan di gabung semua elemennya, value string pada sql adalah kutip satu 'value'
-- ->exec()                                          //akhiri dengan metode exec(); untuk menjalankan update
+##### 5.1 Create 
+###### 5.1.1 Insert 1
+$tbl->insert(associativeArray)
 ```bash
-$db->update("user")
-->set(
-    (object) array(
-        "fullname" => "tro765y4reg_update1"
-    )
-)
-->where(
-    ["email =", "'tro765y4reg'"]
-)
-->exec()
+$argsInsert = [
+     "namatest" => "nilai" 
+    ,"info" => "nilai record yang di insert" 
+];
+
+$tbl -> insert($argsInsert);
 ```
-##### 5.2 updateTo(table,where object,update object)
-$db->updateTo(table,where object,update object);
+###### 5.1.2 Insert 2
+one by one set value field then call $tbl -> new();
 ```bash
-$db->updateTo(
-    "user"
-    ,(object) array(
-        "email" => "tro765y4reg"
-    )
-    ,(object) array(
-        "fullname" => "tro765y4reg_update"
-    )
-);
+$tbl -> setValue("namatest", "nilai" ); //field name, value record
+$tbl -> setValue("info", "nilai record yang di insert"); 
+$tbl -> new();
 ```
 
-### 6. Delete Database
-$db->deleteFrom(table,where object);
+##### 5.2 Update 
+###### 5.2.1 Update 1
+by primary keys value
 ```bash
-$db->deleteFrom(
-    "user"
-    ,(object) array(
-        "email" => "tro765y4reg"
-    )
-);
+$argsUpdate = [
+  "namatest" => "nilai Update" 
+  ,"info" => "nilai record yang di update edit" 
+];
+
+$tbl -> update('1',$argsUpdate);
 ```
 
-### License Creative Commons Zero v1.0 Universal
-Kamu dapat menyalin, memodifikasi, mendistribusikan, dan melakukan pekerjaan, bahkan untuk tujuan komersial, dengan Kode ini tanpa meminta izin sekalipun.
+###### 5.2.2 Update 2
+by filter
+```bash
+$argsWhereFilter = [
+  "namatest" => "nilai Update" 
+];
 
+$argsUpdate = [
+  "namatest" => "nilai Update" 
+  ,"info" => "nilai record yang di update edit" 
+];
 
+$tbl -> updateBy($argsWhereFilter,$argsUpdate);
+```
 
+##### 5.3 Delete 
+###### 5.3.1 Delete 1
+by primary keys value
+```bash
+$tbl -> delete('1');
+```
+
+###### 5.3.2 Delete 2
+by filter
+```bash
+$argsDeleteFilter = [
+  "namatest" => "nilaid" 
+];
+
+$tbl -> deleteBy($argsDeleteFilter);
+```
+##### 5.4 Get
+Get only get one data and add to fields table
+###### 5.4.1 Get 1
+get by keys arrays by primary key
+```bash
+$record = $tbl -> get(['5']);
+```
+###### 5.4.2 Get 2
+if you have other unique value can use getBy
+```bash
+$tbl -> getBy('field','value');
+$record = $tbl -> getBy('id','4');
+```
+##### 5.5 Query
+even you can query many data
+```bash
+$records = $tbl -> query("id,namatest,info",[
+                                          "namatest='nilai'"
+                                          //," and "                                          
+                                          //,"id = '5'"
+                                        ]);
+```
+
+### 6. Other Feature
+##### 6.1 Get Next Number
+```bash
+$number = $tbl -> nextno("id");
+echo $number;
+
+$number = $tbl -> nextno("id", ["namatest='nilaidf'"]);
+echo $number;
+```
+##### 6.2 encrypt & verify value field
+```bash
+$tbl -> encrypt("namatest", "realvalue");
+echo $tbl -> value("namatest");
+
+//verify value field will return 1 if verified
+$isVerify = $tbl -> verify("namatest", "realvalue");
+echo $isVerify;
+```
+##### 6.3 time
+```bash
+$time = $tbl -> timeNow();
+echo $time;
+```
+##### 6.4 setvalue & unset field
+```bash
+$tbl->setValue("infodsf",7);
+$tbl->unset(["infodsf"]);
+echo $tbl->value("infodsf");
+```

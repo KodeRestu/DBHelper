@@ -1,7 +1,0 @@
-{
-    "type":"mysql"
-    ,"host":"localhost"
-    ,"dbname":"nama database"
-    ,"username":"nama user"
-    ,"passcode":"kata sandi"
-}

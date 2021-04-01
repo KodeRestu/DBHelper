@@ -2,8 +2,8 @@
     "name": "restu/dbhelper",
     "description": "package library for help you to use database",
     "type": "library",
-    "version": "0.0.1",
-    "license": "CC0-1.0",
+    "version": "0.1.1",
+    "license": "MIT",
     "keywords": [
         "database",
         "db helper",
@@ -12,7 +12,7 @@
       ],
     "minimum-stability": "dev",
     "autoload": {
-        "psr-4": {"mod\\backend\\": "mod/backend"}
+        "classmap": ["dbclass"]
     },
     "require": { 
         "php": ">=7.0"    

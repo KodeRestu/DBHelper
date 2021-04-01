@@ -1,86 +1,98 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php'; //composer
-//require_once 'mod/backend/dbhelper.php'; //native
+require ("_dbloader.php"); //- load all dbclass/ php files
 
-use mod\backend\dbhelper;
+//- define db table class for Create, Update, Delete, Read in dbclass folder example Tbl.php
 
-$db = dbhelper::Instance("Config/DB_mysql.json"); //set Instan koneksi database dengan json di folder Config
+//- instance your table
+$tbl = new Tbl();
 
-#region Select Query 
-//Select mengikuti syntax sql, menggunakan metode rantai
-$data = $db->select("fullname,email")               //kolom 
-             ->from("user")                         //tabel
-             //->where(["fullname =", "'hrth'"])    //Kondisi dalam bentuk array yang nanti akan di gabung semua elemennya jika value string pada sql adalah kutip satu 'value'
-             ->orderBy("fullname desc")             //sama seperti sql, 'kolom' dulu kemudian sequen 'asc/desc'
-             ->query();                             //akhiri dengan metode query(); untuk banyak baris/ atau queryRow(); untuk satu baris
-             
-             
+//- Good Luck & Have Fun with your App
+// //Create
+// //insert 1
+// $argsInsert = [
+//     "namatest" => "nilai" 
+//     ,"info" => "nilai record yang di insert" 
+// ];
 
-$data2 = $db->from("user")                          // tanpa select akan otomatis select * from(tabel)
-//->query();                         
-->queryRow();                                       //akhiri dengan metode queryRow(); untuk satu baris
+// $tbl -> insert($argsInsert);
 
-echo json_encode($data);
-echo "<br><br>";
-echo json_encode($data2);
-#endregion
-
-#region Insert Database
-//$db->Insert(table,insert object);
-
-// $db->insertInto(
-//     "user"
-//     ,(object) array(
-//         "fullname" => "fullname123"
-//         ,"email" => "tro765y4reg"
-//     )
-// );
-
-#endregion
-
-#region Update Database
-//$db->update("table")->set(set object)
-//->where(["email =", "'tro765y4reg'"])             //Kondisi dalam bentuk array yang nanti akan di gabung semua elemennya jika value string pada sql adalah kutip satu 'value'
-//->exec()                                          //akhiri dengan metode exec(); untuk menjalankan update
-
-// $db->update("user")
-// ->set(
-//     (object) array(
-//         "fullname" => "tro765y4reg_update1"
-//     )
-// )
-// ->where(
-//     ["email =", "'tro765y4reg'"]
-// )
-// ->exec();
+// //insert 2
+// $tbl -> setValue("namatest", "nilai" ); //firt field name, value record
+// $tbl -> setValue("info", "nilai record yang di insert"); 
+// $tbl -> new();
 
 
-//$db->updateTo(table,where object,update object);
+// //Update
+// $argsUpdate = [
+//   "namatest" => "nilai Update" 
+//   ,"info" => "nilai record yang di update edit" 
+// ];
 
-// $db->updateTo(
-//     "user"
-//     ,(object) array(
-//         "email" => "tro765y4reg"
-//     )
-//     ,(object) array(
-//         "fullname" => "tro765y4reg_update2"
-//     )
-// );
+////update 1 by primary keys value
+//$tbl -> update('1',$argsUpdate);
 
-#endregion
+// //update 2 by filter
 
-#region Delete Database
-//$db->deleteFrom(table,where object);
+// $argsWhereFilter = [
+//   "namatest" => "nilai Update" 
+// ];
+// $tbl -> updateBy($argsWhereFilter,$argsUpdate);
+
+//Delete
+//delete 1 use primary keys value
+// $tbl -> delete('1');
 
 
-// $db->deleteFrom(
-//     "user"
-//     ,(object) array(
-//         "email" => "tro765y4reg"
-//     )
-// );
+// $argsDeleteFilter = [
+//   "namatest" => "nilaid" 
+// ];
 
-#endregion
+// $tbl -> deleteBy($argsDeleteFilter);
 
+
+//Read
+
+// //get only 1 record
+// //get by keys arrays by primary key
+$record = $tbl -> get(['5']);
+echo json_encode($record);
+
+//if you have other unique value can use getBy
+// $record = $tbl -> getBy('id','4');
+// echo json_encode($record);
+
+//even you can query many data
+// $records = $tbl -> query("id,namatest,info",[
+//                                           "namatest='nilai'"
+//                                           //," and "                                          
+//                                           //,"id = '5'"
+//                                         ]);
+// echo json_encode($records);
+
+//other feature
+
+//get Next Number
+// $number = $tbl -> nextno("id");
+// echo $number;
+
+//get Next Number by where condition
+// $number = $tbl -> nextno("id", ["namatest='nilaidf'"]);
+// echo $number;
+
+// //encrypt & verify value field
+// $tbl -> encrypt("namatest", "realvalue");
+// echo $tbl -> value("namatest");
+
+// //verify value field will return 1 if verified
+// $isVerify = $tbl -> verify("namatest", "realvalue");
+// echo $isVerify;
+
+//time now 'Asia/Jakarta'
+// $time = $tbl -> timeNow();
+// echo $time;
+
+// $tbl->setValue("infodsf",7);
+// $tbl->unset(["infodsf"]);
+// echo $tbl->value("infodsf");
 
 ?>

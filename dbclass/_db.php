@@ -1,14 +1,27 @@
 <?php
 
-namespace mod\backend;
+/*
+ * This file is part of the dbhelper package.
+ *
+ * (c) Restu Adi <lab@fidelstu.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use \PDO;
-
-class dbhelper
+class _db
 {    
-    public static $Connection;
+    private $_pathConfig = 'config/db.json';
+    // Property untuk koneksi ke database mysql
+    private $_host = '';
+    private $_dbname = '';
+    private $_username = '';
+    private $_password = '';
 
+    private $_pdo;
     private static $_instance = null;
+
+    public static $Connection="";    
 
     private $_selectColumn = "";
     private $_fromTable = "";
@@ -17,44 +30,57 @@ class dbhelper
 
     private $_execKind = "";
     private $_execTable = "";
-    private $_execSet = "";
+    private $_execSet = "";    
 
-    public function __construct() {
-        $this -> connectDB();
+    private function configFromJson(){
+        $path = "{$_SERVER['DOCUMENT_ROOT']}/{$this->_pathConfig}";
+        $cfg= null;
+        if (is_file($path)){
+            $strFile = file_get_contents($path);
+            
+            $cfg= (object) json_decode($strFile, true);
+
+            $this->_host = $cfg->_host;
+            $this->_dbname = $cfg->_dbname;
+            $this->_username = $cfg->_username;
+            $this->_password = $cfg->_password;
+        }
+
+        return $cfg;
     }
 
-    public function connectDB(){        
-        $strFile = file_get_contents(self::$Connection);
-        $cfg= (object) json_decode($strFile, true);
-
-        $dsn = "$cfg->type:host=$cfg->host;dbname=$cfg->dbname";       
-
+    // Constructor untuk pembuatan PDO Object
+    private function __construct(){        
+        $this->configFromJson();        
         try {
-            $this -> conn = new PDO($dsn, $cfg->username, $cfg->passcode);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            //echo "DB Connected";
-        } catch (Exception $err) {
-            $this._errorConnection($err);
+          $this->_pdo = new PDO('mysql:host='.$this->_host.';dbname='.$this->_dbname,
+                                 $this->_username, $this->_password);
+    
+                                 //echo 'mysql:host='.$this->_host.';dbname='.$this->_dbname.$this->_username. $this->_password;
+          $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e){
+          // $e;
+    
+          die("Koneksi / Query bermasalah: ".$e->getMessage(). " (".$e->getCode().")");
         }
     }
-        
-    public static function Instance($connection){
-        if(!isset(self::$_instance)) {
-            self::$Connection=$connection;
-        self::$_instance = new dbhelper();
-        }
-        return self::$_instance;
-    }
 
-    function _errorConnection($err){
+    
+
+  // Singleton pattern untuk membuat class DB
+  public static function getInstance(){
+    if(!isset(self::$_instance)) {        
+      self::$_instance = new _db();
+    }
+    return self::$_instance;
+  }
+
+
+  public function _errorConnection($err){
         die("Connection / Query have problem('s): ".$err->getMessage(). " (".$err->getCode().")");
     }
 
-    function disconnectDB(){
-        $this -> conn = NULL;        
-    }
-
+    
     function select($column){      
         $this -> _resetSelect();  
         $this -> _selectColumn = "select {$column} ";
@@ -62,7 +88,7 @@ class dbhelper
     }
 
     function from($table){
-        $this -> _selectColumn = $this -> _selectColumn == "" ? "select * " : $this -> _selectColumn;
+        $this -> _selectColumn = empty($this -> _selectColumn) ? "select * " : $this -> _selectColumn;
         $this -> _fromTable ="from {$table}";
         return $this;
     }
@@ -91,6 +117,7 @@ class dbhelper
 
     function queryRows($sql){
         $query = $this -> queryPDO($sql);
+        
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
@@ -200,18 +227,20 @@ class dbhelper
         try {
             return $this -> queryRows($sql);
         } catch (Exception $err) {
-            $this._errorConnection($err);
+            $this -> _errorConnection($err);
         } 
        
     }
 
     function queryRow() {
         $sql = $this->_selectColumn.$this->_fromTable.$this->_whereCondition.$this->_orderBy;
-
+        
         try {
             return $this -> queryObject($sql);
         } catch (Exception $err) {
-            $this._errorConnection($err);
+            $this -> _errorConnection($err);
+
+            
         } 
        
     }
@@ -237,14 +266,14 @@ class dbhelper
 
     function queryPDO($sql) {    
         
-        return $this -> conn->query($sql);
+        return $this -> _pdo->query($sql);
     }
 
     function execute($sql) {
         try {
-            $this -> conn->exec($sql);
+            $this -> _pdo->exec($sql);
         } catch (Exception $err) {
-            $this._errorConnection($err);
+            $this -> _errorConnection($err);
         }          
     }   
 
