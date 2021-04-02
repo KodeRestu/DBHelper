@@ -11,7 +11,7 @@ Lihat Index.php untuk implementasi
 ##### 1.2 config koneksi database di folder /config file db.json. 
 
 ### 2. Buat Table Class
-buat table class sesuai database kamu didalam folder dbclass
+buat table class sesuai database / tabel kamu didalam folder dbclass
 ```bash
 //table class must extends from _tbl
 class Tbl extends _tbl{    
