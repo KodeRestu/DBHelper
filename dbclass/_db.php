@@ -11,7 +11,7 @@
 
 class _db
 {    
-    private $_pathConfig = 'config/db.json';
+    private $_pathConfig = 'dbhelper/config/db.json';
     // Property untuk koneksi ke database mysql
     private $_host = '';
     private $_dbname = '';

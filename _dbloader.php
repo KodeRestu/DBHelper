@@ -1,10 +1,12 @@
 <?php
+
 function _dbloader($class) {
-  $path = "./dbclass/{$class}.php";
-  if (file_exists($path)) {
-    require $path;
+  $pathFolder = "{$_SERVER['DOCUMENT_ROOT']}/dbhelper/dbclass/";
+  $phpFile = "{$pathFolder}{$class}.php";
+  if (file_exists($phpFile)) {
+    require $phpFile;
   } else {
-    die ("File $path tidak tersedia");
+    die ("File $phpFile tidak tersedia");
   }
 }
  

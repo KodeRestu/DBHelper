@@ -2,7 +2,7 @@
     "name": "restu/dbhelper",
     "description": "package library for help you to use database",
     "type": "library",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "license": "MIT",
     "keywords": [
         "database",

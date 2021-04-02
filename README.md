@@ -4,14 +4,14 @@ Halo, mohon untuk di coba dbhelper php yang saya buat, semoga bisa membantu dala
 ~Terima Kasih
 
 ## Cara Pakai
-Lihat Index.php untuk implemetasi
+Lihat Index.php untuk implementasi
 
 ### 1. Config
-##### 1.1 config db.json di folder /config. 
-##### 1.2 modify jika didalam subfolder $_pathConfig = 'folder../db.json' di folder dbclass/_db.php;
+##### 1.1 copy or clone dbhelper ke app kamu. 
+##### 1.2 config koneksi database di folder /config file db.json. 
 
 ### 2. Buat Table Class
-buat table class sesuai db km didalam folder dbclass
+buat table class sesuai database kamu didalam folder dbclass
 ```bash
 //table class must extends from _tbl
 class Tbl extends _tbl{    
@@ -29,9 +29,9 @@ class Tbl extends _tbl{
 ```
 
 ### 3. required / include _dbloader.php
-semua file php akan auto di load agar mudah di instansiasi oleh karena itu require / include _dbloader.php di atas dokumen php km
+require / include _dbloader.php di atas dokumen php kamu agar bantuan database / tabel bisa di panggil
 ```bash
-require ("_dbloader.php");
+require ("dbhelper/_dbloader.php");
 ```
 
 ### 4. Intansiasi Tabel
