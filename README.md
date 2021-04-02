@@ -6,9 +6,18 @@ Halo, mohon untuk di coba dbhelper php yang saya buat, semoga bisa membantu dala
 ## Cara Pakai
 Lihat Index.php untuk implementasi
 
-### 1. Config
+### 1. Install & Config
 ##### 1.1 copy or clone dbhelper ke app kamu. 
+```bash
+//if use composer
+composer require restu/dbhelper "dev-master"
+```
+
 ##### 1.2 config koneksi database di folder /config file db.json. 
+```bash
+//if use composer
+di folder vendor/restu/dbhelper /config file db.json.
+```
 
 ### 2. Buat Table Class
 buat table class sesuai database / tabel kamu didalam folder dbclass
@@ -28,10 +37,13 @@ class Tbl extends _tbl{
 }
 ```
 
-### 3. required / include _dbloader.php
-require / include _dbloader.php di atas dokumen php kamu agar bantuan database / tabel bisa di panggil
+### 3. required _dbloader.php or autoload vendor composer
+require _dbloader.php atau autoload vendor composer di atas dokumen php kamu agar bantuan database / tabel bisa di panggil
 ```bash
 require ("dbhelper/_dbloader.php");
+
+//if use composer
+require_once __DIR__ . '/vendor/autoload.php';
 ```
 
 ### 4. Intansiasi Tabel

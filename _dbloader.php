@@ -4,7 +4,7 @@ function _dbloader($class) {
   $pathFolder = "{$_SERVER['DOCUMENT_ROOT']}/dbhelper/dbclass/";
   $phpFile = "{$pathFolder}{$class}.php";
   if (file_exists($phpFile)) {
-    require $phpFile;
+    require_once $phpFile;
   } else {
     die ("File $phpFile tidak tersedia");
   }
