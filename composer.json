@@ -10,7 +10,7 @@
         "mysql",
         "PDO"
       ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "classmap": ["dbclass"]
     },
