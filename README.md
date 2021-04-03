@@ -15,12 +15,11 @@ composer require restu/dbhelper "dev-master"
 
 ##### 1.2 config koneksi database di folder /config file db.json. 
 ```bash
-//if use composer
-di folder vendor/restu/dbhelper /config file db.json.
+di folder /dbhelper/config file db.json.
 ```
 
 ### 2. Buat Table Class
-buat table class sesuai database / tabel kamu didalam folder dbclass
+buat table class sesuai database / tabel kamu didalam folder /dbhelper/dbclass
 ```bash
 //table class must extends from _tbl
 class Tbl extends _tbl{    
@@ -44,6 +43,14 @@ require ("dbhelper/_dbloader.php");
 
 //if use composer
 require_once __DIR__ . '/vendor/autoload.php';
+
+//your folder app need this
+-- Your App Folder
+  --- dbhelper
+      --config
+        --db.json //your connection to database
+      --dbclass
+        --Tbl.php //your tbl class
 ```
 
 ### 4. Intansiasi Tabel
