@@ -10,7 +10,7 @@ Lihat Index.php untuk implementasi
 ##### 1.1 copy or clone dbhelper ke app kamu. 
 ```bash
 //if use composer
-composer require restu/dbhelper "dev-master"
+composer require restu/dbhelper
 ```
 
 ##### 1.2 config koneksi database di folder /config file db.json. 
