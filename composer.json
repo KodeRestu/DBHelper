@@ -12,7 +12,7 @@
       ],
     "minimum-stability": "stable",
     "autoload": {
-        "classmap": ["dbclass"]
+        "files": ["dbclass/_db.php","dbclass/_tbl.php","_dbloader.php"]
     },
     "require": { 
         "php": ">=7.0"    

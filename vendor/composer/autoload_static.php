@@ -6,11 +6,14 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit039bd8c9a88438ccf056d30942dfe940
 {
+    public static $files = array (
+        '6a5d572726f9039f16cff2c3ae18d4c1' => __DIR__ . '/../..' . '/dbclass/_db.php',
+        '6aded32585bccc5cb5520ca36df584f0' => __DIR__ . '/../..' . '/dbclass/_tbl.php',
+        'b0cef38657cb54cf8577e1a160adcc0b' => __DIR__ . '/../..' . '/_dbloader.php',
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Tbl' => __DIR__ . '/../..' . '/dbclass/Tbl.php',
-        '_db' => __DIR__ . '/../..' . '/dbclass/_db.php',
-        '_tbl' => __DIR__ . '/../..' . '/dbclass/_tbl.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
