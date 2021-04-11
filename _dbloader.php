@@ -2,7 +2,9 @@
 
 function _dbloader($class) {
   $pathFolder = "{$_SERVER['DOCUMENT_ROOT']}/dbhelper/dbclass/";
-  $phpFile = "{$pathFolder}{$class}.php";
+  $parts = explode('\\', $class);
+  $cls = end($parts);
+  $phpFile = "{$pathFolder}{$cls}.php";
   if (file_exists($phpFile)) {
     require_once $phpFile;
   } else {

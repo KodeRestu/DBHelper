@@ -1,4 +1,5 @@
 <?php
+namespace dbhelper;
 
 //table class must extends from _tbl
 class Tbl extends _tbl{    

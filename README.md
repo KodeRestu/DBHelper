@@ -21,7 +21,9 @@ di folder /dbhelper/config file db.json.
 ### 2. Buat Table Class
 buat table class sesuai database / tabel kamu didalam folder /dbhelper/dbclass
 ```bash
-//table class must extends from _tbl
+//table class must use namespace dbhelper & extends from _tbl
+namespace dbhelper;
+
 class Tbl extends _tbl{    
     protected $_tbl = 'tbl';
     protected $_pk = 'id'; //must have primary key
@@ -54,9 +56,10 @@ require_once __DIR__ . '/vendor/autoload.php';
 ```
 
 ### 4. Intansiasi Tabel
-Instansiasi tabel yang diperlukan
+Instansiasi tabel yang diperlukan dengan new dbhelper\Tbl()
 ```bash
-$tbl = new Tbl();
+//with new dbhelper\;
+$tbl = new dbhelper\Tbl();
 ```
 
 ### 5. Good luck & Have fun with your app 

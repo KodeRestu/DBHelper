@@ -1,10 +1,12 @@
 <?php
 require ("_dbloader.php"); //- load all dbclass/ php files
+use dbhelper as db;
+
 
 //- define db table class for Create, Update, Delete, Read in dbclass folder example Tbl.php
 
 //- instance your table
-$tbl = new Tbl();
+$tbl = new db\Tbl();
 
 //- Good Luck & Have Fun with your App
 // //Create
